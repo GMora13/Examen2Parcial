@@ -66,6 +66,20 @@ function initEmployee(db) {
     } );//getemployeeById By Id
   });
 
-
+  router.post('/addtag/:id', function(req, res, next){
+    var empdata = Object.assign({} , tag, req.body);
+    var dateT = new Date();
+    var dateD = new Date();
+    dateD.setDate(dateT.getDate()+ 3);
+    tagadded.fcIng = dateT;
+    tagadded.due = dateD;
+    mongoModel.addNewtag(tagadded, (err, newThing)=>{
+      if(err){
+        console.log(err);
+        return res.status(500).json({"error":"No se puede agregar tag, revisa lo que ingresas"});
+      }
+      return res.status(200).json(newtag);
+    });// addNewTag
+  });
 
   module.exports= initEmployee;
