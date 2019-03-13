@@ -6,8 +6,8 @@ function employeeModel(db){
   
   lib.getEmployees = (handler)=>{
     // implementar
-    // obtener todos los documentos
-    obt.find({}).toArray(
+    // empCollener todos los documentos
+    empColl.find({}).toArray(
       (err , docs) => {
         if(err){
           handler(err, null);
@@ -20,7 +20,7 @@ function employeeModel(db){
   }
 
   lib.getEmployeesById = (id, handler) => {
-    obt.findOne({ "_id": new ObjectId(thingId)}, (err, doc)=>{
+    empColl.findOne({ "_id": new ObjectId(thingId)}, (err, doc)=>{
       if(err){
         handler(err, null);
       }else{
@@ -31,7 +31,7 @@ function employeeModel(db){
   }
 
   lib.getEmployeesByCompany = (company, handler) => {
-    obt.findOne({ "company": new ObjectId(company)}, (err, doc)=>{
+    empColl.findOne({ "company": new ObjectId(company)}, (err, doc)=>{
       if(err){
         handler(err, null);
       }else{
@@ -42,7 +42,7 @@ function employeeModel(db){
   }
 
   lib.getEmployeesByAgeRange = (ageLowLimit, ageHighLimit, handler) => {
-    obt.findOne({ "Age": new ObjectId(ageHighLimit)}, (err, doc)=>{
+    empColl.findOne({ "Age": new ObjectId(ageHighLimit)}, (err, doc)=>{
       if(err){
         handler(err, null);
       }else{
@@ -53,7 +53,7 @@ function employeeModel(db){
   }
 
   lib.getEmployeesByTag = (tag, handler) => {
-    obt.findOne({ "tag": new ObjectId(tag)}, (err, doc)=>{
+    empColl.findOne({ "tag": new ObjectId(tag)}, (err, doc)=>{
       if(err){
         handler(err, null);
       }else{
@@ -66,7 +66,7 @@ function employeeModel(db){
   lib.addEmployeeATag = ( tag, id, handler) => {
     var curatedTags = Array.isArray(tags)? tags: [tags];
     var updateObject = { "$set": { "tags": curatedTags}};
-    obt.updateOne({"_id": ObjectId(id)}, updateObject, (err, rsult)=>{
+    empColl.updateOne({"_id": ObjectId(id)}, updateObject, (err, rsult)=>{
         if(err){
           handler(err, null);
         }else{
@@ -77,7 +77,7 @@ function employeeModel(db){
   }
 
   lib.removeEmployee = (id, handler) => {
-    obt.deleteOne({"_id": ObjectId(Id)}, (err, rslt)=>{
+    empColl.deleteOne({"_id": ObjectId(Id)}, (err, rslt)=>{
       if(err){
         console.log(err);
         handler(err, null);
