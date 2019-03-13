@@ -1,5 +1,7 @@
+var uuidv4 = require('uuid/v4');
 var express = require('express');
 var router = express.Router();
+
 
 function initEmployee(db) {
   var empModel = require('./employeeModel')(db);
@@ -18,11 +20,15 @@ function initEmployee(db) {
    */
 
   router.get('/all', (req, res, next) => {
-    /*
-    empModel.xyz( (err, docs)=>{
+    
+    empModel.getEmployees( (err, docs)=>{
+      if (err){
+        console.log(err);
+        return res.status(500).json({"error":"Algo salió mal"});
+      }
       return res.status(200).json(docs);
     });
-    */
+    
   });// all
 
   
