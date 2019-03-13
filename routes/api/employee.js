@@ -1,7 +1,5 @@
-var uuidv4 = require('uuid/v4');
 var express = require('express');
 var router = express.Router();
-
 
 function initEmployee(db) {
   var empModel = require('./employeeModel')(db);
@@ -20,19 +18,54 @@ function initEmployee(db) {
    */
 
   router.get('/all', (req, res, next) => {
-    
-    empModel.getEmployees( (err, docs)=>{
-      if (err){
-        console.log(err);
-        return res.status(500).json({"error":"Algo salió mal"});
-      }
-      return res.status(200).json(docs);
+    empModel.getEmployees( (err, docs)=>{if(err) {
+      console.log(err);
+      return res.status(500).json({error:"Algo salio mal"});
+    }
+    return res.status(200).json(docs);
     });
-    
   });// all
 
-  
-  return router;
-}
+  router.get('/byid/:id', (req, res, next)=>{
+    mongoModel.getEmployeesById(req.params.id, (err, docs)=>{
+      if(err){
+        console.log(err);
+        return res.status(500).json({"error":"Error al obtener el empleado"});
+      }
+      return res.status(200).json(docs);
+    } );//getemployeeById By Id
+  });
 
-module.exports = initEmployee;
+  router.get('/bycompany/:company', (req, res, next)=>{
+    mongoModel.getEmployeesByCompany(req.params.company, (err, docs)=>{
+      if(err){
+        console.log(err);
+        return res.status(500).json({"error":"Error al obtener el empleado/compañia"});
+      }
+      return res.status(200).json(docs);
+    } );//getemployeeById By Id
+  });
+
+  router.get('/byagerange/:min/:max', (req, res, next)=>{
+    mongoModel.getEmployeesByAgeRange(req.params.age, (err, docs)=>{
+      if(err){
+        console.log(err);
+        return res.status(500).json({"error":"Error al obtener el empleado/rangodeedad"});
+      }
+      return res.status(200).json(docs);
+    } );//getemployeeById By Id
+  });
+
+  router.get('/bytag/:tag', (req, res, next)=>{
+    mongoModel.getEmployeesByTag(req.params.tag, (err, docs)=>{
+      if(err){
+        console.log(err);
+        return res.status(500).json({"error":"Error al obtener el empleado"});
+      }
+      return res.status(200).json(docs);
+    } );//getemployeeById By Id
+  });
+
+
+
+  module.exports= initEmployee;
